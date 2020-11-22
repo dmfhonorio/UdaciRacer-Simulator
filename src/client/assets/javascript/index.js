@@ -327,9 +327,6 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
-	// let userPlayer = positions.find(e => e.id === store.player_id)
-	// userPlayer.driver_name += " (you)"
-
 	const racers = positions.map(racer => {
 		let driver_name = racer.driver_name.split(' ')[1].substr(0, 3);
 		if (racer.id === store.player_id) {
@@ -401,7 +398,6 @@ function defaultFetchOpts() {
 // TODO - Make a fetch call (with error handling!) to each of the following API endpoints 
 
 function getTracks() {
-	// GET request to `${SERVER}/api/tracks`
 	const getServerTracks = () => {
 		return fetch(`${SERVER}/api/tracks`).then(res => res.json())
 	}
@@ -429,7 +425,6 @@ function getTracks() {
 }
 
 function getRacers() {
-	// GET request to `${SERVER}/api/cars`
 	const getServerRacers = () => {
 		return fetch(`${SERVER}/api/cars`).then(res => res.json())
 	}
@@ -496,9 +491,6 @@ function startRace(id) {
 }
 
 function accelerate(id) {
-	// POST request to `${SERVER}/api/races/${id}/accelerate`
-	// options parameter provided as defaultFetchOpts
-	// no body or datatype needed for this request
 	return fetch(`${SERVER}/api/races/${id}/accelerate`, {
 		method: 'POST',
 		...defaultFetchOpts()
