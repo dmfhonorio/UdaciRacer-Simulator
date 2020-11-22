@@ -2,44 +2,55 @@
   "cars": [
     {
       "id": 1,
-      "driver_name": "Racer 1",
+      "driver_name": "Lewis Hamilton",
       "top_speed": 650,
       "acceleration": 8,
-      "handling": 7
+      "handling": 7,
+      "photo": "https://www.formula1.com/content/dam/fom-website/drivers/L/LEWHAM01_Lewis_Hamilton/lewham01.png.transform/2col/image.png",
+      "color": "rgb(0, 210, 190)"
     },
     {
       "id": 2,
-      "driver_name": "Racer 2",
+      "driver_name": "Valtteri Bottas",
       "top_speed": 600,
       "acceleration": 9,
-      "handling": 9
+      "handling": 9,
+      "photo": "https://www.formula1.com/content/dam/fom-website/drivers/V/VALBOT01_Valtteri_Bottas/valbot01.png.transform/2col/image.png",
+      "color": "rgb(0, 210, 190)"
     },
     {
       "id": 3,
-      "driver_name": "Racer 3",
+      "driver_name": "Max Verstappen",
       "top_speed": 500,
       "acceleration": 10,
-      "handling": 6
+      "handling": 6,
+      "photo": "https://www.formula1.com/content/dam/fom-website/drivers/M/MAXVER01_Max_Verstappen/maxver01.png.transform/2col/image.png",
+      "color": "rgb(6, 0, 239)"
     },
     {
       "id": 4,
-      "driver_name": "Racer 4",
+      "driver_name": "Sergio Perez",
       "top_speed": 550,
       "acceleration": 7,
-      "handling": 8
+      "handling": 8,
+      "photo": "https://www.formula1.com/content/dam/fom-website/drivers/S/SERPER01_Sergio_Perez/serper01.png.transform/2col/image.png",
+      "color": "rgb(245, 150, 200)"
     },
     {
       "id": 5,
-      "driver_name": "Racer 5",
+      "driver_name": "Charles Leclerc",
       "top_speed": 700,
       "acceleration": 5,
-      "handling": 4
+      "handling": 4,
+      "photo": "https://www.formula1.com/content/dam/fom-website/drivers/C/CHALEC01_Charles_Leclerc/chalec01.png.transform/2col/image.png",
+      "color": "rgb(220, 0, 0)"
     }
   ],
   "tracks": [
     {
       "id": 1,
-      "name": "Track 1",
+      "name": "Spain",
+      "photo": "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Spain%20carbon.png.transform/9col/image.png",
       "segments": [
         87,
         47,
@@ -246,7 +257,8 @@
     },
     {
       "id": 2,
-      "name": "Track 2",
+      "name": "Belgium",
+      "photo": "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Belgium%20carbon.png.transform/9col/image.png",
       "segments": [
         37,
         86,
@@ -403,7 +415,8 @@
     },
     {
       "id": 3,
-      "name": "Track 3",
+      "name": "Great Britain",
+      "photo": "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Great%20Britain%20carbon.png.transform/9col/image.png",
       "segments": [
         15,
         10,
@@ -585,7 +598,8 @@
     },
     {
       "id": 4,
-      "name": "Track 4",
+      "name": "Portugal",
+      "photo": "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Portugal%20carbon.png.transform/9col/image.png",
       "segments": [
         9,
         55,
@@ -743,7 +757,8 @@
     },
     {
       "id": 5,
-      "name": "Track 5",
+      "name": "Germany",
+      "photo": "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Germany%20carbon.png.transform/9col/image.png",
       "segments": [
         61,
         5,
@@ -942,7 +957,8 @@
     },
     {
       "id": 6,
-      "name": "Track 6",
+      "name": "Italy",
+      "photo": "https://www.formula1.com/content/dam/fom-website/2018-redesign-assets/Track%20icons%204x3/Emilia%20Romagna%20carbon.png.transform/9col/image.png",
       "segments": [
         18,
         7,

@@ -1,0 +1,134 @@
+section#leaderBoard {
+  margin-right: auto;
+  padding: 0;
+}
+
+.create-race-section {
+  padding: 2rem;
+}
+
+.podracer h3 {
+  border: none;
+  border-left: 4px solid;
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+}
+
+.podracer img {
+  margin-top: 1rem;
+}
+
+.leaderboard-table {
+  border-collapse: collapse;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 20rem;
+}
+
+.driver-row {
+  color: white;
+}
+.driver-row:nth-child(odd) {
+  background: #232323;
+}
+
+.driver-row:nth-child(even) {
+  background: #353434;
+}
+
+.driver-row td {
+  padding: 8px;
+  font-size: 1.25rem;
+}
+
+.leaderboard-driver-name {
+  text-transform: uppercase;
+}
+
+.formula1-car {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 2rem 0;
+  transition: all .2s ease;
+}
+
+.formula1-car div {
+  background: red;
+}
+.car-front {
+  height: 18px;
+  width: 3px;
+}
+
+.car-front-tires {
+  width: 16px;
+  height: 4px;
+  position: relative;
+}
+.car-front-tires::after,
+.car-front-tires::before {
+  content: ' ';
+  display: block;
+  position:absolute;
+  background: black;
+  height: 5px;
+  width: 8px;
+  top: -6px;
+  left: 5px;
+}
+.car-front-tires::after {
+  top: unset;
+  bottom: -6px;
+}
+.car-body {
+  height: 15px;
+  width: 25px;
+  margin-left: 2px
+}
+.car-rear {
+  width: 2px;
+  height: 13px;
+  position: relative;
+}
+.car-rear::after,
+.car-rear::before {
+  position: absolute;
+  display: block;
+  content: ' ';
+  background: black;
+  width: 9px;
+  height: 5px;
+  top: -7px;
+  left: 1px;
+}
+
+.car-rear::after {
+  top: unset;
+  bottom: -7px;
+}
+
+.car-name {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.875rem;
+  margin-right: 0.25rem;
+  position: absolute;
+  left: 0;
+  transform: translateX(-110%);
+}
+
+.race-simulator {
+  margin-top: 1rem;
+}
+
+.race-simulator h3 {
+  border-top: 1px solid;
+}
+
+.main-results-view {
+  overflow: hidden;
+  padding: 2rem 4rem;
+  width: 1280px;
+  margin: auto;
+}

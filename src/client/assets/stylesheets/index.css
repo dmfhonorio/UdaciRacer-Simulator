@@ -18,10 +18,11 @@ body {
   flex-direction: column;
   font-family: Arial;
   min-height: 100vh;
+  font-family: 'Titillium Web', sans-serif;
 }
 
 header {
-  background-image: url('https://via.placeholder.com/1150');
+  background-image: url('../img/formula1-home.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -67,10 +68,10 @@ p {
 .button {
   width: 250px;
   padding: 20px 10px;
-  background-color: green;
+  background-color: #e10600;
   cursor: pointer;
   border-radius: 4px;
-  border-color: 1px solid green;
+  border-color: #e10600;
   color: white;
   font-size: 20px;
   text-transform: uppercase;
@@ -82,6 +83,7 @@ p {
 
 main {
   flex: 1;
+  padding: 2rem;
 }
 
 section {

@@ -7,6 +7,8 @@ var store = {
 	track_id: undefined,
 	player_id: undefined,
 	race_id: undefined,
+	my_racers: undefined,
+	track_segment: undefined
 }
 
 // We need our javascript to wait until the DOM is loaded
@@ -26,6 +28,7 @@ async function onPageLoad() {
 		getRacers()
 			.then((racers) => {
 				const html = renderRacerCars(racers)
+				store = { ...store, my_racers: racers }
 				renderAt('#racers', html)
 			})
 	} catch (error) {
@@ -42,10 +45,16 @@ function setupClickHandlers() {
 		if (target.matches('.card.track')) {
 			handleSelectTrack(target)
 		}
+		if (target.parentNode.matches('.card.track')) {
+			handleSelectTrack(target.parentNode)
+		}
 
 		// Podracer form field
 		if (target.matches('.card.podracer')) {
 			handleSelectPodRacer(target)
+		}
+		if (target.parentNode.matches('.card.podracer')) {
+			handleSelectPodRacer(target.parentNode)
 		}
 
 		// Submit create race form
@@ -60,7 +69,6 @@ function setupClickHandlers() {
 		if (target.matches('#gas-peddle')) {
 			handleAccelerate(target)
 		}
-
 	}, false)
 }
 
@@ -88,7 +96,7 @@ async function handleCreateRace() {
 
 		// TODO - update the store with the race id
 		const race_id = race.ID - 1;
-		store = { ...store, race_id: race_id }
+		store = { ...store, race_id: race_id, track_segment: race.Track.segments.length }
 
 		// render starting UI
 		renderAt('#race', renderRaceStartView(race.Track, race.Cars))
@@ -114,6 +122,16 @@ function runRace(raceID) {
 		const raceInterval = setInterval(() => {
 			getRace(raceID)
 				.then((race) => {
+
+					race.positions = race.positions.map(position => {
+						const myRacer = store.my_racers.find(racer => racer.id == position.id);
+						return {
+							...position,
+							driver_name: myRacer.driver_name,
+							color: myRacer.color
+						}
+					})
+
 					if (race.status == 'in-progress') {
 						// TODO - if the race info status property is "in-progress", update the leaderboard by calling:
 						renderAt('#leaderBoard', raceProgress(race.positions))
@@ -214,15 +232,29 @@ function renderRacerCars(racers) {
 }
 
 function renderRacerCard(racer) {
-	const { id, driver_name, top_speed, acceleration, handling } = racer
+	const { id, driver_name, top_speed, acceleration, handling, photo, color } = racer
 
 	return `
 		<li class="card podracer" id="${id}">
-			<h3>${driver_name}</h3>
-			<p>${top_speed}</p>
-			<p>${acceleration}</p>
-			<p>${handling}</p>
+			<h3 style="border-color: ${color}">${driver_name}</h3>
+			<p>Top Speed: ${top_speed}</p>
+			<p>Acceleration: ${acceleration}</p>
+			<p>Handling: ${handling}</p>
+			<img src=${photo}></img>
 		</li>
+	`
+}
+
+function renderFormula1Car(name, color, translateY) {
+	return `
+		<div class="formula1-car" style="transform: translateX(${translateY}px)">
+			<p class="car-name">${name}</p>
+			<div style="background-color: ${color}" class="car-rear"></div>
+			<div style="background-color: ${color}" class="car-rear-tires"></div>
+			<div style="background-color: ${color}" class="car-body"></div>
+			<div style="background-color: ${color}" class="car-front-tires"></div>
+			<div style="background-color: ${color}" class="car-front"></div>
+		</div>
 	`
 }
 
@@ -243,11 +275,12 @@ function renderTrackCards(tracks) {
 }
 
 function renderTrackCard(track) {
-	const { id, name } = track
+	const { id, name, photo } = track
 
 	return `
 		<li id="${id}" class="card track">
 			<h3>${name}</h3>
+			<img src=${photo} />
 		</li>
 	`
 }
@@ -286,25 +319,38 @@ function resultsView(positions) {
 		<header>
 			<h1>Race Results</h1>
 		</header>
-		<main>
+		<main class="main-results-view">
 			${raceProgress(positions)}
-			<a href="/race">Start a new race</a>
+			<a href="/race" class="button">Start a new race</a>
 		</main>
 	`
 }
 
 function raceProgress(positions) {
-	let userPlayer = positions.find(e => e.id === store.player_id)
-	userPlayer.driver_name += " (you)"
+	// let userPlayer = positions.find(e => e.id === store.player_id)
+	// userPlayer.driver_name += " (you)"
 
-	positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1)
+	const racers = positions.map(racer => {
+		let driver_name = racer.driver_name.split(' ')[1].substr(0, 3);
+		if (racer.id === store.player_id) {
+			driver_name += " (you)"
+		}
+		return { ...racer, driver_name }
+	})
+	positions = [...racers].sort((a, b) => (a.segment > b.segment) ? -1 : 1)
+
 	let count = 1
-
 	const results = positions.map(p => {
 		return `
-			<tr>
+			<tr class="driver-row">
 				<td>
-					<h3>${count++} - ${p.driver_name} - Segment ${p.segment}</h3>
+					${count++}
+				</td>
+				<td class="leaderboard-driver-name">
+					${p.driver_name}
+				</td>
+				<td>
+					${p.segment}
 				</td>
 			</tr>
 		`
@@ -312,9 +358,17 @@ function raceProgress(positions) {
 
 	return `
 		<main>
+		<section id="leaderBoard">
 			<h3>Leaderboard</h3>
-			<section id="leaderBoard">
-				${results}
+				<table class="leaderboard-table">
+					${results.join('')}
+				</table>
+			</section>
+		</main>
+		<main>
+		<section class="race-simulator">
+			<h3>Track</h3>
+				${racers.map(racer => renderFormula1Car(racer.driver_name, racer.color, racer.segment / store.track_segment * 1000)).join('')}
 			</section>
 		</main>
 	`
@@ -331,6 +385,7 @@ function renderAt(element, html) {
 
 // API CALLS ------------------------------------------------
 
+const LOCAL_SERVER = 'http://localhost:3000'
 const SERVER = 'http://localhost:8000'
 
 function defaultFetchOpts() {
@@ -347,8 +402,27 @@ function defaultFetchOpts() {
 
 function getTracks() {
 	// GET request to `${SERVER}/api/tracks`
-	return fetch(`${SERVER}/api/tracks`)
-		.then(res => res.json())
+	const getServerTracks = () => {
+		return fetch(`${SERVER}/api/tracks`).then(res => res.json())
+	}
+	const getMyTracks = () => {
+		return fetch(`${LOCAL_SERVER}/myTracks`).then(res => res.json())
+	}
+	return Promise.all([getServerTracks(), getMyTracks()])
+		.then(res => {
+			console.log(res)
+			return res[0].map(track => {
+				const myTrack = res[1].find(myR => myR.id == track.id)
+				if (myTrack) {
+					return {
+						...track,
+						photo: myTrack.photo,
+						name: myTrack.name
+					}
+				}
+				return track;
+			})
+		})
 		.catch(err => {
 			throw new Error(`There was a problem getting tracks ${err}`)
 		})
@@ -356,8 +430,29 @@ function getTracks() {
 
 function getRacers() {
 	// GET request to `${SERVER}/api/cars`
-	return fetch(`${SERVER}/api/cars`)
-		.then(res => res.json())
+	const getServerRacers = () => {
+		return fetch(`${SERVER}/api/cars`).then(res => res.json())
+	}
+	const getMyRacers = () => {
+		return fetch(`${LOCAL_SERVER}/myRacers`).then(res => res.json())
+	}
+	return Promise.all([getServerRacers(), getMyRacers()])
+		.then(res => {
+			console.log(res)
+			return res[0].map(racer => {
+				const myRacer = res[1].find(myR => myR.id == racer.id)
+				if (myRacer) {
+					return {
+						...racer,
+						photo: myRacer.photo,
+						driver_name:
+							myRacer.driver_name,
+						color: myRacer.color
+					}
+				}
+				return racer;
+			})
+		})
 		.catch(err => {
 			throw new Error(`There was a problem getting racers: ${err}`);
 		})

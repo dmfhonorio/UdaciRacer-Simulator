@@ -2,12 +2,13 @@
 
 /* -------------------  MOBILE  --------------------- */
 header {
-  background-image: url('https://via.placeholder.com/1150');
+    background-image: url('../img/formula1-track.png');
 }
 
 main#two-columns {
-    margin: 50px 0;
+    margin-bottom: 50px;
     display: flex;
+    overflow: hidden;
 }
 
 main#two-columns section {
@@ -15,13 +16,14 @@ main#two-columns section {
 }
 
 section#accelerate button {
-    height: 300px;
-    width: 300px;
+    height: 150px;
+    width: 150px;
     margin: 30px auto;
     border-radius: 180%;
-    background-color: green;
-    border-color: rgb(14, 166, 6);
+    background-color: #e10600;
+    border-color: #e10600;
     cursor: pointer;
+    color: white;
 }
 
 #big-numbers {
